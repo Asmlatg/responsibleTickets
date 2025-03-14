@@ -6,4 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\responsibleTickets.Application\responsibleTickets.Application.csproj" />
+    <ProjectReference Include="..\responsibleTickets.Domain\responsibleTickets.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="Data\Repositories\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
