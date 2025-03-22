@@ -401,3 +401,5 @@ FodyWeavers.xsd
 **/[Ll]og/**
 **/[Ll]ogs/**
 
+/responsibleTickets/src/Web/ClientApp/.angular/cache/17.3.9/angular-webpack/3ec4af43b1917edea9e9c7f066489a80a051e9f5
+/responsibleTickets/src/Web/ClientApp/.angular/cache/17.3.9/babel-webpack
