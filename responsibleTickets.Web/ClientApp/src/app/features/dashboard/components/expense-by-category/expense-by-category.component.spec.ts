@@ -20,4 +20,4 @@ describe('ExpenseByCategoryComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+});z

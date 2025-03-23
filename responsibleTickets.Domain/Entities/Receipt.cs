@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace responsibleTickets.Domain.Entities
 {
-    internal class Receipt
+    public class Receipt
     {
+        public int Id { get; set; }
+        public string ImagePath { get; set; }
+        public string MerchantName { get; set; }
+        public DateTime ReceiptDate { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string RawText { get; set; }
+        public DateTime UploadDate { get; set; }
+        public ICollection<Expense> Expenses { get; set; }
     }
 }

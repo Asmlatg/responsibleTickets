@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace responsibleTickets.Application.DTOs
 {
-    internal class CategoryDto
+    public class CategoryDto
     {
+
     }
 }
