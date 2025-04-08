@@ -401,3 +401,4 @@ FodyWeavers.xsd
 **/[Ll]og/**
 **/[Ll]ogs/**
 
+/responsibleTickets.Api/ClientApp/.vscode
