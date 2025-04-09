@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>6e4429f0-91b5-4569-9c89-33cefa2c8e7b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="8.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\responsibleTickets.Application\responsibleTickets.Application.csproj" />
+		<ProjectReference Include="..\responsibleTickets.Infrastructure\responsibleTickets.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>
+

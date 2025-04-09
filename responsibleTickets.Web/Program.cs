@@ -1,32 +1,83 @@
-using System;
-using responsibleTickets.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using responsibleTickets.Application.Interfaces;
+using responsibleTickets.Application.Services;
+using responsibleTickets.Domain.Interfaces.Repositories;
+using responsibleTickets.Infrastructure.Data.Repositories;
+using responsibleTickets.Infrastructure.Data;
+using responsibleTickets.Infrastructure.Services;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-
-var app = builder.Build();
-//Database
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        //Database
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        // Register repositories
+        builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+        // Register services
+        builder.Services.AddScoped<IExpenseService, ExpenseService>();
+        builder.Services.AddScoped<IReceiptScanningService, ReceiptScanningService>();
+        builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+
+        // Add controllers
+        builder.Services.AddControllers();
+
+        // Add authentication
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            });
+
+        // Add CORS
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAngularApp",
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+        });
+
+        // Add Swagger
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseCors("AllowAngularApp");
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
+
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
-
-app.Run();

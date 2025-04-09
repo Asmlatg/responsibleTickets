@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;    
+﻿using responsibleTickets.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
 namespace responsibleTickets.Infrastructure.Data
 {
-    public class AppDbContext :  DbContext
+    public class ExpenseContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public ExpenseContext(DbContextOptions<ExpenseContext> options) : base(options) { }
+
+        public DbSet<Expense> Expenses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Expense>().HasKey(x => x.Id);
         }
-        //i should define db dbset here
-        //// public DbSet<mymodel> mymodels { get; set; } 
     }
 }

@@ -1,0 +1,9 @@
+<div>
+  <h2>Expense List</h2>
+  <ul>
+    <li *ngFor="let expense of expenses">
+      <strong>{{ expense.title }}</strong> - {{ expense.amount | currency }} on {{ expense.date | date:'shortDate' }}
+      <button (click)="deleteExpense(expense.id)">Delete</button>
+    </li>
+  </ul>
+</div>
